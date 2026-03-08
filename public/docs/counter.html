@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Sử Dụng Kiểm Phiếu - VoteCore</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Source+Sans+3:wght@400;600&display=swap');
+
+        :root {
+            --primary: #F97316;
+            --surface: #F8FAFC;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-main);
+            background-color: var(--surface);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Lexend', sans-serif;
+            color: var(--text-main);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            min-height: 100vh;
+        }
+
+        .header-meta {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .step-block {
+            background: #FFF7ED;
+            border: 1px solid #FFEDD5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 700;
+            color: #C2410C;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-title span {
+            background: #EA580C;
+            color: white;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-safe {
+            background: #F0FDF4;
+            border-left: 4px solid #22C55E;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            color: #166534;
+        }
+
+        .alert-warning {
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            color: #991B1B;
+        }
+
+        .ui-component {
+            display: inline-block;
+            background: #1E293B;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-green {
+            background: #10B981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>VoteCore - Kiểm Phiếu Viên</h1>
+        <div class="header-meta">Tài liệu Hướng Dẫn Sử Dụng dành cho Ban Kiểm Phiếu</div>
+
+        <h2>I. Chuẩn bị Phiếu Bầu</h2>
+        <p>Vai trò <strong>Kiểm phiếu viên (Vote Counter)</strong> đảm nhận việc mở lô phiếu, nhập dữ liệu từ phiếu giấy lên hệ thống và chốt báo cáo.</p>
+        <p>Trước khi bắt đầu, hãy phân loại phiếu hợp lệ, không hợp lệ thành từng tệp riêng. Hệ thống phân chia theo lô (Block), mỗi lô tối đa nên giới hạn để giữ sai số thấp (Khoảng 20-50 phiếu/lô).</p>
+
+        <h2>II. Bắt Đầu Lô (Block) Kiểm Phiếu</h2>
+
+        <div class="step-block">
+            <div class="step-title"><span>1</span> Tạo phiên kiểm đếm</div>
+            <p>Tại trang "Chờ Kiểm Phiếu", chọn <strong>Cuộc Chọn Cử</strong> đang diễn ra.</p>
+            <ul>
+                <li><strong>Bước 1:</strong> Bấm để chọn chức vụ (VD: Chủ Tịch).</li>
+                <li><strong>Bước 2:</strong> Cầm trên tay tệp phiếu giấy và đếm số lượng phiếu cứng hợp lệ trong tệp này. Nhập số liệu đó vào ô <strong>"Số lượng phiếu cứng trên tay"</strong>.</li>
+                <li>Bấm <span class="ui-component">Bắt Đầu Nhập Phiếu</span> (Màu xanh).</li>
+            </ul>
+            <div class="alert-safe">
+                <strong>An toàn dữ liệu:</strong> Số lượng này là ngưỡng khai báo giúp hệ thống đối chiếu tốc độ của bạn. Nếu bạn bấm nhập quá liều hoặc thiếu, hệ thống sẽ <strong>Cảnh Báo</strong> tự động!
+            </div>
+        </div>
+
+        <h2>III. Giao Diện Nhập Chạm Thông Minh</h2>
+
+        <div class="step-block">
+            <div class="step-title"><span>2</span> Nhập mã Số Ứng Viên</div>
+            <p>Hệ thống VoteCore hoàn toàn <strong>rảnh tay thao tác chuột</strong>.</p>
+            <ul>
+                <li>Bạn sẽ nhìn thấy một <strong>Bảng Nút Bấm Khổng Lồ</strong> đánh số từ 1, 2, 3...</li>
+                <li>Phiếu giấy ghi số ứng viên nào được chọn, bạn chỉ cần <strong>Gõ phím số tương ứng trên Bàn Phím (Keyboard)</strong> hoặc <strong>Click/Chạm tay</strong> vào ô số. Ô sẽ sáng màu xanh biển (hoặc cam) lên.</li>
+                <li>Nếu bấm/gõ nhầm số, gõ/bấm lại số đó lần nữa để tắt ô đó.</li>
+            </ul>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title"><span>3</span> Ghi Nhận Phiếu</div>
+            <ul>
+                <li>Sau khi bấm chọn/gõ đủ các số xuất hiện trên lá phiếu giấy, chỉ việc nhấn phím <strong><kbd>Enter</kbd></strong> trên bàn phím (Hoặc bấm nút GHI NHẬN to trên màn).</li>
+                <li>Hệ thống lưu trữ thành công sẽ đẩy lá phiếu vừa nhập xuống khu vực <strong>"Lịch Sử Nhập Gần Đây"</strong> (Lịch sử hiển thị 10 lá liên tiếp để tiện rà soát).</li>
+            </ul>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title"><span>4</span> Khóa Lô (Chốt sổ)</div>
+            <ul>
+                <li>Khi số phiếu khai báo bằng đúng số phiếu bạn đã bấm nhập (100% xanh lá), màn hình sẽ bật đèn xanh.</li>
+                <li>Nhấp nút <span class="btn-green">KHÓA & NỘP HỆ THỐNG</span> để gửi kết quả của lô (nhóm) này lên cho Ban Quản trị.</li>
+            </ul>
+            <div class="alert-warning">
+                <strong>Tuyệt đối chú ý:</strong> Nút "Hủy bỏ" lệnh màu Cảnh báo đỏ góc Màn hình. Bấm vào nút này sẽ vô hiệu hóa lô phiếu bạn đang cầm, đồng nghĩa kết quả chưa được ghi nhận về máy chủ.
+            </div>
+        </div>
+
+        <a href="/" class="back-link">&larr; Trở về Trang Chủ</a>
+    </div>
+</body>
+
+</html>

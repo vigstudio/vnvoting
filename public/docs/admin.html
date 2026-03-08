@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Sử Dụng Admin - VoteCore</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700;800&family=Source+Sans+3:wght@400;600&display=swap');
+
+        :root {
+            --primary: #2563EB;
+            --surface: #F8FAFC;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-main);
+            background-color: var(--surface);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Lexend', sans-serif;
+            color: var(--text-main);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            min-height: 100vh;
+        }
+
+        .header-meta {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .step-block {
+            background: #F1F5F9;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-family: 'Lexend', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-title span {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #E2E8F0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #ef4444;
+        }
+
+        .alert {
+            background: #FFF7ED;
+            border-left: 4px solid #F97316;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            color: #9A3412;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>VoteCore - Quản Trị Viên</h1>
+        <div class="header-meta">Tài liệu Hướng Dẫn Sử Dụng dành cho Admin hệ thống</div>
+
+        <h2>I. Tổng quan</h2>
+        <p>Vai trò <strong>Quản trị viên (Admin)</strong> có quyền tạo mới, chỉnh sửa thông tin các cuộc bầu cử, chức danh, và danh sách các ứng viên trong hệ thống VoteCore.</p>
+
+        <div class="alert">
+            <strong>Lưu ý:</strong> Admin không có quyền <em>nhập phiếu bầu</em>. Chỉ có tài khoản Vote Counter mới thực hiện được nghiệp vụ đếm phiếu.
+        </div>
+
+        <h2>II. Quy trình thiết lập Bầu cử</h2>
+
+        <div class="step-block">
+            <div class="step-title"><span>1</span> Truy cập Control Panel</div>
+            <p>Từ trang Dashboard chính, bạn nhấn vào mục <strong>"Quản lý Cuộc Bầu Cử"</strong>.</p>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title"><span>2</span> Khởi tạo Cuộc Bầu Cử Mới</div>
+            <ul>
+                <li>Nhấn nút <strong>"Tạo mới"</strong> màu xanh góc phải.</li>
+                <li>Nhập <code>Tên Cuộc Bầu Cử</code> và <code>Mô tả</code> nếu cần.</li>
+                <li>Lưu lại bằng cách nhấn <strong>"Tạo Cuộc Bầu Cử"</strong>.</li>
+            </ul>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title"><span>3</span> Quản lý Chức Vụ (Position)</div>
+            <p>Trong danh sách Cuộc Bầu Cử, nhấn vào nút <strong>"Chức vụ"</strong> (Màu tím nhạt) của một bầu cử cụ thể.</p>
+            <ul>
+                <li>Tại đây bạn khai báo chức vụ như: Chủ tịch, Phó chủ tịch.</li>
+                <li>Tùy chọn màu áo/màu phiếu nhận diện cho vị trí này để Kiểm phiếu viên dễ nhìn (Ví dụ màu Xanh dương, màu Cam thẻ cứng).</li>
+            </ul>
+        </div>
+
+        <div class="step-block">
+            <div class="step-title"><span>4</span> Thêm Ứng Viên</div>
+            <p>Vào chức vụ vừa tạo, nhấn tiếp <strong>"Ứng viên"</strong> (Danh sách đen).</p>
+            <ul>
+                <li>Bấm <strong>"Thêm Ứng Viên Mới"</strong>.</li>
+                <li>Thứ tự khai báo sẽ quyết định <em>Mã Số Bầu Cử</em> của ứng viên (Từ 1 trở đi). Vui lòng khai báo đúng thứ tự trên lá phiếu in sẵn.</li>
+            </ul>
+        </div>
+
+        <h2>III. Xem Kết Quả</h2>
+        <p>Hệ thống tự động cập nhật kết quả dạng phần trăm % theo tiến độ hoàn thành ngay ở trong bảng <strong>Edit / Chức vụ</strong>.</p>
+
+        <a href="/" class="back-link">&larr; Trở về Trang Chủ</a>
+    </div>
+</body>
+
+</html>

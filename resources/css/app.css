@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@theme {
+    --font-heading: "Lexend", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+
+    /* Color Tokens - SaaS Standard */
+    --color-primary: #2563EB;
+    --color-primary-hover: #1D4ED8;
+    --color-secondary: #3B82F6;
+    --color-cta: #F97316;
+    --color-bg: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-text-primary: #1E293B;
+    --color-text-secondary: #64748B;
+    --color-text-muted: #94A3B8;
+    --color-border: #E2E8F0;
+    --color-border-hover: #CBD5E1;
+    --color-success: #10B981;
+    --color-success-bg: #D1FAE5;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-error-bg: #FEE2E2;
+}
+
+@layer base {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-heading);
+    }
+    body {
+        font-family: var(--font-body);
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
+        font-size: 0.9375rem;
+        line-height: 1.5;
+    }
+
+    /* Flat Design Base Styles */
+    .flat-card {
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+    }
+
+    .flat-card-hover:hover {
+        border-color: var(--color-border-hover);
+        transition: border-color 200ms, background-color 200ms;
+    }
+
+    .flat-btn-primary {
+        background-color: var(--color-primary);
+        color: white;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: background-color 200ms;
+    }
+
+    .flat-btn-primary:hover {
+        background-color: var(--color-primary-hover);
+    }
+
+    .flat-btn-cta {
+        background-color: var(--color-cta);
+        color: white;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: background-color 200ms;
+    }
+
+    .flat-btn-cta:hover {
+        background-color: #EA580C;
+    }
+}
+
+@layer components {
+    /* Counting Interface - Standard SaaS Font Sizes */
+    .counting-body {
+        font-size: 1rem;
+    }
+
+    .counting-heading {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .counting-subheading {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .counting-text {
+        font-size: 1rem;
+    }
+
+    .btn-counting-large {
+        padding: 0.875rem 1.5rem;
+        font-size: 1.125rem;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+
+    .input-counting-large {
+        padding: 0.75rem 1rem;
+        font-size: 1.125rem;
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        background-color: var(--color-surface);
+        transition: border-color 200ms, box-shadow 200ms;
+    }
+
+    .input-counting-large:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .counting-nav {
+        background-color: var(--color-surface);
+        border-bottom: 4px solid var(--color-primary);
+    }
+
+    /* Flat input styles */
+    .flat-input {
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        background-color: var(--color-surface);
+        transition: border-color 200ms, box-shadow 200ms;
+    }
+
+    .flat-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Flat button base */
+    .flat-btn {
+        border-radius: 12px;
+        font-weight: 600;
+        transition: background-color 200ms, border-color 200ms;
+        cursor: pointer;
+    }
+
+    /* Flat table */
+    .flat-table {
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        overflow: hidden;
+        background-color: var(--color-surface);
+    }
+
+    .flat-table thead {
+        background-color: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .flat-table tbody tr {
+        border-bottom: 1px solid var(--color-border);
+        transition: background-color 200ms;
+    }
+
+    .flat-table tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .flat-table tbody tr:hover {
+        background-color: var(--color-bg);
+    }
+}
