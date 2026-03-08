@@ -1,6 +1,6 @@
-# VoteCore: Enterprise Election Management Platform
+# VnVoting: Enterprise Election Management Platform
 
-**VoteCore** là nền tảng quản trị và kiểm đếm phiếu bầu cử cấp doanh nghiệp (Enterprise SaaS), được thiết kế để đáp ứng các tiêu chuẩn khắt khe nhất về tính toàn vẹn dữ liệu, kiểm soát truy cập phân quyền và khả năng xử lý số lượng phiếu bầu lớn (High-throughput ballot entry).
+**VnVoting** là nền tảng quản trị và kiểm đếm phiếu bầu cử, được thiết kế để đáp ứng các tiêu chuẩn khắt khe nhất về tính toàn vẹn dữ liệu, kiểm soát truy cập phân quyền và khả năng xử lý số lượng phiếu bầu lớn (High-throughput ballot entry).
 
 Hệ thống cung cấp giải pháp chuyển đổi số toàn diện cho các tổ chức, hiệp hội và cơ quan ban ngành, thay thế quy trình kiểm phiếu thủ công bằng công nghệ tự động hóa, đảm bảo tính minh bạch và độ chính xác tuyệt đối.
 
@@ -58,11 +58,11 @@ php artisan pail
 
 ## Sử dụng
 
-### 🗳️ VoteCore - Nền Tảng Quản Trị Bầu Cử Đám Mây
+### 🗳️ VnVoting - Nền Tảng Quản Trị Bầu Cử Đám Mây
 
-![VoteCore Architecture](https://img.shields.io/badge/Laravel-11.x-FF2D20.svg?style=flat&logo=laravel) ![Livewire](https://img.shields.io/badge/Livewire-3.x-FB70A9.svg?style=flat&logo=livewire) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-38B2AC.svg?style=flat&logo=tailwind-css)
+![VnVoting Architecture](https://img.shields.io/badge/Laravel-11.x-FF2D20.svg?style=flat&logo=laravel) ![Livewire](https://img.shields.io/badge/Livewire-3.x-FB70A9.svg?style=flat&logo=livewire) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-38B2AC.svg?style=flat&logo=tailwind-css)
 
-**VoteCore** không chỉ là phần mềm đếm phiếu, đây là một hệ sinh thái toàn diện được tối ưu hóa cho tốc độ, độ tin cậy và sự minh bạch trong môi trường bầu cử quy mô lớn.
+**VnVoting** không chỉ là phần mềm đếm phiếu, đây là một hệ sinh thái toàn diện được tối ưu hóa cho tốc độ, độ tin cậy và sự minh bạch trong môi trường bầu cử quy mô lớn.
 
 Hệ thống được thiết kế theo tiêu chuẩn UI/UX "SaaS Command Center", loại bỏ hoàn toàn sự lộn xộn, tối đa hóa không gian thao tác và tự động đối soát chéo (Cross-verification) ngay tại thời điểm nhập liệu.
 
@@ -80,7 +80,7 @@ Hệ thống được thiết kế theo tiêu chuẩn UI/UX "SaaS Command Center
 
 ## 👥 Quản Trị Vai Trò Cấp Cao (Role-Based Access Control)
 
-VoteCore áp dụng mô hình phân quyền (RBAC) chặt chẽ giữa quản lý và vận hành trực tiếp.
+VnVoting áp dụng mô hình phân quyền (RBAC) chặt chẽ giữa quản lý và vận hành trực tiếp.
 
 ### 1. 🛡️ Quản Trị Viên Hệ Thống (Administrator)
 
@@ -99,7 +99,7 @@ VoteCore áp dụng mô hình phân quyền (RBAC) chặt chẽ giữa quản l�
 
 ## 🚀 Triển Khai Hạ Tầng (Deployment Guide)
 
-Được xây dựng phục vụ triển khai On-Premise (Nội bộ) hoặc Cloud Server, VoteCore yêu cầu ngăn xếp **PHP 8.3**, **Laravel 12.x**, **Livewire 4.x** và tối ưu với đa định dạng cơ sở dữ liệu (**MySQL/PostgreSQL/SQLite**).
+Được xây dựng phục vụ triển khai On-Premise (Nội bộ) hoặc Cloud Server, VnVoting yêu cầu ngăn xếp **PHP 8.3**, **Laravel 12.x**, **Livewire 4.x** và tối ưu với đa định dạng cơ sở dữ liệu (**MySQL/PostgreSQL/SQLite**).
 
 ```bash
 # 1. Triển khai Source Code
