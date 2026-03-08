@@ -7,6 +7,7 @@ use App\Models\Position;
 use App\Models\Candidate;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class VotingSeeder extends Seeder
 {
@@ -14,13 +15,21 @@ class VotingSeeder extends Seeder
     {
         // Tạo admin user
         User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
+            'name' => 'Chi Cục Bầu Cử',
+            'email' => 'admin@vnvoting.test',
+            'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
         // Tạo vote counter user
-        User::factory(3)->create([
+        User::factory()->create([
+            'name' => 'Bàn Số 1',
+            'email' => 'counter@vnvoting.test',
+            'password' => Hash::make('password'),
+            'role' => 'vote_counter',
+        ]);
+
+        User::factory(2)->create([
             'role' => 'vote_counter',
         ]);
 

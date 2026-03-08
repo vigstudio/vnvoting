@@ -43,6 +43,9 @@ Route::middleware(['auth'])->group(function () {
 
         // Dashboard thống kê tổng hợp
         Route::get('/elections/{election}/dashboard', ElectionDashboard::class)->name('elections.dashboard');
+
+        // Quản lý nhân sự
+        Route::get('/users', \App\Livewire\Admin\UserManager::class)->name('users');
     });
 
     // Vote counting routes - admin và vote_counter đều truy cập được

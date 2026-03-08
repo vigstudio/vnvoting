@@ -1,19 +1,18 @@
-# Hệ thống Kiểm đếm Phiếu Bầu Cử
+# VoteCore: Enterprise Election Management Platform
 
-Hệ thống hỗ trợ kiểm đếm phiếu bầu cử tại địa phương, được thiết kế đơn giản để người lớn tuổi dễ sử dụng.
+**VoteCore** là nền tảng quản trị và kiểm đếm phiếu bầu cử cấp doanh nghiệp (Enterprise SaaS), được thiết kế để đáp ứng các tiêu chuẩn khắt khe nhất về tính toàn vẹn dữ liệu, kiểm soát truy cập phân quyền và khả năng xử lý số lượng phiếu bầu lớn (High-throughput ballot entry).
 
-## Tính năng
+Hệ thống cung cấp giải pháp chuyển đổi số toàn diện cho các tổ chức, hiệp hội và cơ quan ban ngành, thay thế quy trình kiểm phiếu thủ công bằng công nghệ tự động hóa, đảm bảo tính minh bạch và độ chính xác tuyệt đối.
 
-- 🗳️ **Quản lý Cuộc Bầu Cử**: Tạo và quản lý nhiều cuộc bầu cử
-- 📋 **Cấp Chức Vụ Linh Hoạt**: Tạo unlimited số cấp chức vụ (Bí thư, Chủ tịch, Phó Chủ tịch, v.v.)
-- 🎨 **Màu Phiếu Riêng Biệt**: Mỗi cấp chức vụ có màu phiếu riêng để dễ phân biệt
-- 👥 **Quản Lý Ứng Viên**: Thêm/sửa/xóa ứng viên với số thứ tự
-- ✍️ **Kiểm Phiếu Nhanh**: Nhập nhanh theo số thứ tự (1,2,3) và nhấn Enter
-- 📊 **Kết Quả Trực Tiếp**: Xem kết quả theo thời gian thực
-- ✅ **Kiểm Tra Ngưỡng**: Tự động so sánh số phiếu nhập vs thực tế (50-150%)
-- 📥 **Xuất Báo Cáo**: Export Excel (multi-sheet) và PDF
+## Tính năng Cốt lõi (Core Features)
 
-## Yêu cầu hệ thống
+- � **Phân Quyền Định Danh (RBAC):** Hệ thống phân quyền chặt chẽ giữa Quản Trị Viên (Admin) và Nhân Viên Kiểm Phiếu (Counters), đảm bảo tính cô lập dữ liệu.
+- 🗳️ **Quản Trị Nhiều Kỳ Bầu Cử Đồng Thời:** Khả năng thiết lập và chạy song song nhiều chiến dịch bầu cử với cấu trúc tổ chức phức tạp.
+- 🏢 **Cấu Trúc Chức Vụ Linh Hoạt:** Không giới hạn số lượng chức vụ cấp cao (Bí thư, Chủ tịch, Ban Thường vụ...). Hỗ trợ phân loại màu sắc phiếu bầu thông minh.
+- ⚡ **Giao Diện Nhập Liệu Tốc Độ Cao:** Bảng điều khiển (Entry Grid) tối ưu hóa bằng Alpine.js cho phép nhân viên nhập liệu liên tục thông qua phím tắt, chuột và màn hình cảm ứng, loại bỏ bottleneck truyền thống.
+- 🛡️ **Kiểm Soát Tính Hợp Lệ (Ballot Integrity):** Tự động phát hiện và ngăn chặn nhập trùng, chặn phiếu vượt định mức (Overvoting), đồng thời theo dõi sát sao tỷ lệ Cấp Phát / Thu Hồi và Phiếu Không Hợp Lệ.
+- � **Real-time Analytics Dashboard:** Trung tâm điều khiển cung cấp dữ liệu trực tiếp về tiến độ kiểm phiếu, biểu đồ phân bổ phần trăm và bảng xếp hạng ứng viên theo thời gian thực.
+- 📑 **Truy Xuất Báo Cáo Chuyên Sâu:** Tự động tổng hợp và xuất báo cáo kết quả chi tiết dưới định dạng Excel (Multi-sheet) phục vụ lưu trữ văn thư.
 
 - PHP >= 8.2
 - Composer
@@ -59,94 +58,86 @@ php artisan pail
 
 ## Sử dụng
 
-### 🗳️ VoteCore - Hệ Thống Quản Lý Bầu Cử & Kiểm Phiếu Chuyên Nghiệp
+### 🗳️ VoteCore - Nền Tảng Quản Trị Bầu Cử Đám Mây
 
 ![VoteCore Architecture](https://img.shields.io/badge/Laravel-11.x-FF2D20.svg?style=flat&logo=laravel) ![Livewire](https://img.shields.io/badge/Livewire-3.x-FB70A9.svg?style=flat&logo=livewire) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-38B2AC.svg?style=flat&logo=tailwind-css)
 
-**VoteCore** là một ứng dụng nền tảng web mã nguồn mở được thiết kế để số hóa và tối ưu hóa quá trình kiểm đếm phiếu bầu thủ công. Với giao diện **SaaS Command Center** chuẩn mực, tĩnh lặng và tập trung vào trải nghiệm người dùng (UX), hệ thống loại bỏ những sai sót thường gặp khi đếm phiếu bằng tay, đồng thời cung cấp báo cáo và phân tích dữ liệu trực tiếp theo thời gian thực.
+**VoteCore** không chỉ là phần mềm đếm phiếu, đây là một hệ sinh thái toàn diện được tối ưu hóa cho tốc độ, độ tin cậy và sự minh bạch trong môi trường bầu cử quy mô lớn.
+
+Hệ thống được thiết kế theo tiêu chuẩn UI/UX "SaaS Command Center", loại bỏ hoàn toàn sự lộn xộn, tối đa hóa không gian thao tác và tự động đối soát chéo (Cross-verification) ngay tại thời điểm nhập liệu.
 
 ---
 
-## ✨ Các Tính Năng Nổi Bật
+## ✨ Cấu Trúc Vận Hành (Operational Features)
 
-- **Giao diện Flat Design Hiện Đại:** Thiết kế chuẩn "SaaS Pro Max" với hệ thống thẻ bài (Cards), đường viền thanh thoát, phối màu Slate/Blue chuyên nghiệp giúp giảm mỏi mắt cho người kiểm phiếu trong thời gian dài.
-- **Tốc Độ Nhập Liệu Tối Đa:** Giao diện nhập phiếu tương tác trực tiếp qua ma trận nút bấm (Grid Buttons). Lượt chọn phản hồi tức thì (Instant feedback) kết hợp phím tắt Alpine.js giúp bạn đếm phiếu kể cả khi chỉ dùng bàn phím rảnh tay.
-- **Cơ Chế Theo Dõi "Lô Phiếu" (Block Voting):** Khai báo trước số lượng tờ phiếu cứng có trên tay trước khi đếm. Hệ thống tự động cảnh báo sai lệch, thiếu hụt hoặc vượt mức, đảm bảo tỷ lệ kiểm chuẩn tới 100%.
-- **Hoàn Tác Lịch Sử (Undo/History):** Khung lịch sử nhúng thời gian thực giúp đối soát các lá phiếu vừa thả xuống. Ấn nhầm? Có ngay nút "Hoàn tác" để hệ thống tự động trừ lùi điểm.
-- **Xử Lý Phiếu Không Hợp Lệ:** Nút bấm riêng biệt để ghi nhận các lá phiếu gạch xóa, tẩy xóa sai quy chế, bóc tách dữ liệu tuyệt đối với phiếu Hợp Lệ.
-- **Báo Cáo Tức Thì (Real-time Analytics):** Bảng tổng sắp Dashboard Admin tự động tính toán tổng số phiếu Phát Ra, Hợp Lệ, Không Hợp Lệ, tỷ lệ `%` chiếm đóng cho mỗi ứng viên mà không cần nếm xuất Excel.
-
----
-
-## 👥 Phân Quyền & Vai Trò
-
-Hệ thống hoạt động với hai nhóm tài khoản chính:
-
-### 1. 🛡️ Ban Tổ Chức (Quản Trị Viên / Admin)
-
-- Là người thiết lập và giám sát chiến dịch bầu cử.
-- Khởi tạo chức vụ cần bầu (Chủ tịch, PT. Giám đốc, v.v.)
-- Thêm mã định danh, màu sắc riêng biệt và thông tin ứng cử viên.
-- Sở hữu "Trung Tâm Điều Khiển" (Dashboard) với đồ thị phân bổ tỷ lệ phần trăm phiếu bầu hợp lệ của toàn bộ ứng viên.
-- Giám sát tiến độ đếm phiếu và hiệu suất của từng nhân viên cấp dưới trực tiếp trên bảng theo dõi.
-
-### 2. 📝 Ban Kiểm Phiếu (Vote Counter)
-
-- Là lực lượng nòng cốt thực hiện công tác nhập liệu từ những lá phiếu giấy.
-- Giao diện được tối giản hóa tối đa, triệt tiêu mọi menu cấu hình không liên quan.
-- Chọn một "Chiến dịch", bắt đầu "Lô phiếu" và liên tục bấm (hoặc gõ số) mã ứng viên để ghi nhận.
-- Sở hữu bảng "Báo Cáo Của Tôi" (My Reports) để đối soát số lượng Lô và Số phiếu mình đã chịu trách nhiệm đếm trong ngày.
+- **Giao Diện Phẳng Chuyên Nghiệp (Enterprise Flat Design):** Áp dụng ngôn ngữ thiết kế tối giản, loại bỏ shadow/gradient thừa, sử dụng Typography tỷ lệ vàng để duy trì sự tập trung tuyệt đối cho giao dịch viên trong suốt hàng giờ kiểm đếm liên tục.
+- **Tốc Độ Nhập Liệu Cực Đại (High-Speed Entry Grid):** Chuyển đổi từ mô hình gõ text truyền thống sang Ma Trận Nút Bấm (Grid Mode). Tương tác với độ trễ 0ms (Mô hình Optimistic UI) thông qua nhấp chuột, màn hình cảm ứng, hoặc hoàn toàn bằng phím tắt (Keyboard-first).
+- **Cơ Chế Theo Dõi Lô Phiếu Kép (Dual-Layer Batch Tracking):** Hệ thống yêu cầu khai báo khối lượng phần cứng (số phiếu giấy có trên tay) trước khi bắt đầu. Mọi chênh lệch (dư/thiếu) so với số liệu điện tử đều kích hoạt chuông cảnh báo (Validation Alert) khẩn cấp.
+- **Kiểm Soát Tính Hợp Lệ Chuyên Sâu:** Tách biệt hoàn toàn luồng xử lý phiếu Hợp Lệ và Không Hợp Lệ.
+- **Theo Dõi Vệt Kiểm Toán (Audit Trail - Lịch Sử Lô Phiếu):** Cửa sổ History View cung cấp lịch sử các lá phiếu vừa thả xuống theo thời gian thực. Giao dịch viên hoàn toàn làm chủ được "nút Hoàn Tác (Undo)" tại cấp độ Micro-action mà không làm hỏng tính toàn vẹn của cả Lô báo cáo.
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt (Dành Cho Lập Trình Viên)
+## 👥 Quản Trị Vai Trò Cấp Cao (Role-Based Access Control)
 
-Hệ thống được xây dựng trên ngôn ngữ **PHP 8.3**, Framwork **Laravel 11 / 12**, **Livewire 3** và CSDL **SQLite** (Mặc định, có thể đổi sang MySQL/PostgreSQL).
+VoteCore áp dụng mô hình phân quyền (RBAC) chặt chẽ giữa quản lý và vận hành trực tiếp.
+
+### 1. 🛡️ Quản Trị Viên Hệ Thống (Administrator)
+
+- **Quyền Lực:** Khởi tạo, tùy biến và thiết lập và giám sát chiến dịch tính trên không gian đa miền (Multi-Election Setup).
+- **Cấu hình động:** Định nghĩa chức vụ ban bệ không giới hạn số lượng, thiết lập hệ thống định danh ứng cử viên.
+- **Giám Sát Tức Thời:** Theo dõi sự kiện từ Master Dashboard, xem trực tiếp các biểu đồ tiến độ phiếu Phát ra / Thu vào / Không hợp lệ. Dữ liệu thay đổi live theo từng cú click của cấp dưới.
+- **Truy xuất dữ liệu:** Xuất Báo cáo chuẩn hóa hệ thống (Standardized Reports) định dạng CSV/Excel.
+
+### 2. 📝 Chuyên Viên Kiểm Đếm (Vote Counter)
+
+- **Trọng tâm (Focus):** Truy cập vào "Phòng Kiếm Phiếu Điện Tử" được tối ưu trên mọi màn hình. Không giao diện dư thừa.
+- **Tiến trình an toàn:** Luồng thao tác tuyến tính: _Chọn Chiến Dịch -> Mở Lô Mới -> Khai báo Tổng Phiếu -> Nhập Dữ Liệu -> Xác Nhận Chốt Lô._
+- **My Analytics:** Khu vực "Báo Cáo Của Tôi" theo dõi cụ thể số lượng, mức sai số mà cá nhân người dùng thao tác trong ca làm việc, đảm bảo tự đối soát (Self-audit) trước khi bàn giao.
+
+---
+
+## 🚀 Triển Khai Hạ Tầng (Deployment Guide)
+
+Được xây dựng phục vụ triển khai On-Premise (Nội bộ) hoặc Cloud Server, VoteCore yêu cầu ngăn xếp **PHP 8.3**, **Laravel 12.x**, **Livewire 4.x** và tối ưu với đa định dạng cơ sở dữ liệu (**MySQL/PostgreSQL/SQLite**).
 
 ```bash
-# 1. Clone hoặc tải Repository về máy tính
+# 1. Triển khai Source Code
 git clone https://github.com/your-org/vnvoting.git
 cd vnvoting
 
-# 2. Cài đặt các gói phụ thuộc PHP và Node.js
-composer install
+# 2. Cấu hình Dependencies
+composer install --no-dev --optimize-autoloader
 npm install
 
-# 3. Thiết lập biến môi trường
+# 3. Khởi tạo Môi trường (Environment)
 cp .env.example .env
 php artisan key:generate
 
-# 4. Migrate database và tạo dữ liệu (User Admin mặc định)
+# LƯU Ý: Cấu hình DB\_CONNECTION=mysql trong file .env trước bước 4.
+
+# 4. Di trú CSDL và thiết lập Tài khoản gốc (Root Accounts)
 php artisan migrate:fresh --seed
 
-# 5. Build mã nguồn Frontend (Tailwind/Vite)
+# 5. Biên dịch Tài nguyên Front-End (Vite/Tailwind v4)
 npm run build
 
-# 6. Khởi chạy Server
+# 6. Public/Serve Ứng dụng
 php artisan serve
 ```
 
+> **Ghi chú bảo mật:** Tài khoản cấp phát mặc định bao gồm `admin@vnvoting.test` và `counter@vnvoting.test` (chung mật khẩu: **password**). Quý tổ chức bắt buộc phải đổi mật khẩu và vô hiệu hóa các tài khoản giả lập này trong bản Production.
+
 ---
 
-## 📖 Hướng Dẫn Sử Dụng Chi Tiết
+## 📖 Tài Liệu Hướng Dẫn Vận Hành (Operations Manual)
 
-### Dành Cho Quản Trị Viên (Admin)
+Vui lòng tham khảo bộ tài liệu HTML tĩnh đi kèm hoặc được hosting cục bộ sau khi triển khai hệ thống:
 
-1. **Đăng nhập:** Truy cập hệ thống và dùng tài khoản gán quyền Admin.
-2. **Khởi tạo Chiến Dịch:** Nhấn nút **"Quản lý Bầu cử"** ở ngay màn hình chính. Bấm **"Tạo Cuộc Bầu Cử Mới"**.
-3. **Thêm Chức Vụ:** Trong giao diện cấu hình cuộc bầu cử, thêm các chức vụ đang tranh cử. Hãy nhớ chọn một mã Nhãn (Color Tag) để dễ nhận diện.
-4. **Thêm Ứng Viên:** Chuyển qua tab "Danh sách ứng viên", nhập tên và đính kèm vào chức vụ tương ứng. Hệ thống sẽ cấp một SBD (Số Báo Danh).
-5. Sau khi công tác kiểm phiếu kết thúc, ra ngay trang Home chọn **"Dashboard Tổng Hợp"** để xem Tỷ lệ % cuối.
+- **Tài liệu Quản Trị Hệ Thống (Admin Manual):** `public/docs/admin.html`
+- **Tài liệu Chuyên Viên Kiểm Phiếu (Counter Manual):** `public/docs/counter.html`
 
-### Dành Cho Ban Kiểm Phiếu (Counter)
-
-1. Cầm trên tay một tệp phiếu cứng đã được phát (VD: Một tệp được kẹp sẵn 50 phiếu).
-2. Tại hệ thống, chọn **"Phòng Kiểm Phiếu"**.
-3. Bấm **"Khởi tạo Lô Phiếu Mới"**, chọn chức vụ bạn đang đếm và gõ số **50** vào ô _Số lượng thực tế trên tay_.
-4. Sử dụng bàn phím điện thoại/máy tính hoặc Chuột để bấm vào các ô Mã số Ứng Viên tương ứng với các dấu tích trên tờ biên lai.
-    - _Ghi chú:_ Nếu lá phiếu đó bị gạch xóa sai luật, hãy bấm vào nút màu đỏ nổi bật **"PHIẾU KHÔNG HỢP LỆ"**.
-5. Sau khi bấm đủ các nhãn ứng viên cho một lá, bấm **"Ghi Nhận Lá Phiếu Này"** (Phím tắt: `Enter`).
-6. Khi nhập hết 50 phiếu, nếu quá trình nhập không có lỗi, thanh màu xanh lục sẽ báo hiệu Thành Công. Bấm **"Khóa Lô"** để hệ thống lưu dữ liệu và đưa cho Quản Trị Viên.
+_Mọi thao tác chi tiết từng nút bấm, giải thích luồng xử lý và khôi phục lỗi được ghi chép cụ thể trong tài liệu trên._
 
 ## Tech Stack
 
