@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto pb-10">
+<div class="max-w-7xl mx-auto pb-10" wire:poll.300s>
     <!-- Header -->
     <div class="mb-8 flex items-center justify-between">
         <div>
