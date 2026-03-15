@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExportController;
 use App\Livewire\Admin\ElectionDashboard;
 use App\Livewire\Admin\ElectionForm;
@@ -7,9 +8,7 @@ use App\Livewire\Admin\ElectionIndex;
 use App\Livewire\Counting\BallotEntry;
 use App\Livewire\Counting\Dashboard as CountingDashboard;
 use App\Livewire\Counting\Reporter;
-use App\Livewire\Counting\ResultsDisplay;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 // Auth Routes
 Route::middleware('guest')->group(function () {
@@ -57,6 +56,10 @@ Route::middleware(['auth'])->group(function () {
         // Export routes - cả admin và vote_counter đều được export
         Route::get('/{election}/export/excel', [ExportController::class, 'excel'])->name('export.excel');
         Route::get('/{election}/export/pdf', [ExportController::class, 'pdf'])->name('export.pdf');
+
+        // Personal report export
+        Route::get('/{election}/export/my-excel', [ExportController::class, 'myExcel'])->name('export.my-excel');
+        Route::get('/{election}/export/my-pdf', [ExportController::class, 'myPdf'])->name('export.my-pdf');
     });
 
     // Export routes cho admin

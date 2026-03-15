@@ -5,11 +5,23 @@
             <h1 class="text-3xl font-bold text-slate-900">Báo Cáo Kiểm Phiếu Cá Nhân</h1>
             <p class="text-slate-500 mt-2 text-lg">Kết quả các lô phiếu bạn đã hoàn thành cho cuộc bầu cử: <strong class="text-slate-800">{{ $election->title }}</strong></p>
         </div>
-        <a href="{{ route('counting.entry', $election) }}"
-           class="inline-flex items-center px-5 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors text-base">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/></svg>
-            Quay Lại Kiểm Phiếu
-        </a>
+        <div class="flex flex-wrap gap-3">
+            <a href="{{ route('counting.export.my-pdf', $election) }}"
+               class="inline-flex items-center px-5 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-colors text-base">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Xuất PDF
+            </a>
+            <a href="{{ route('counting.export.my-excel', $election) }}"
+               class="inline-flex items-center px-5 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-colors text-base">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Xuất Excel
+            </a>
+            <a href="{{ route('counting.entry', $election) }}"
+               class="inline-flex items-center px-5 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors text-base">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/></svg>
+                Quay Lại Kiểm Phiếu
+            </a>
+        </div>
     </div>
 
     <!-- Flash Messages -->
