@@ -278,16 +278,6 @@ class BallotEntry extends Component
         return $this->counter->getResults($this->currentBallot)->toArray();
     }
 
-    #[Computed]
-    public function thresholdStatus(): array
-    {
-        if (! $this->currentBallot) {
-            return [];
-        }
-
-        return $this->counter->checkThreshold($this->currentBallot);
-    }
-
     public function render()
     {
         if (! $this->currentBallot && session('current_ballot_'.$this->election->id)) {

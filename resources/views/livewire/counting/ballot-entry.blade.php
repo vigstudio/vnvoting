@@ -66,7 +66,7 @@
                         </label>
                         <input type="number"
                                id="expectedCount"
-                               wire:model.live="expectedCount"
+                               wire:model.blur="expectedCount"
                                min="1"
                                placeholder="Ví dụ: 10, 20..."
                                class="block w-full text-3xl py-4 px-5 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 bg-white transition-colors font-bold">
@@ -113,25 +113,6 @@
                                 <div style="width: {{ $currentBallot->expected_count > 0 ? min(100, ($currentBallot->entered_count / $currentBallot->expected_count * 100)) : 0 }}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500 ease-in-out"></div>
                             </div>
 
-                            <!-- Cảnh báo Ngưỡng -->
-                            @if($this->thresholdStatus)
-                                <div class="mt-6 p-4 rounded-xl flex items-start {{ $this->thresholdStatus['within_threshold'] ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200' }}">
-                                    @if($this->thresholdStatus['within_threshold'])
-                                        <svg class="w-8 h-8 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    @else
-                                        <svg class="w-8 h-8 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                                    @endif
-                                    <div>
-                                        <p class="text-xl font-bold">
-                                            {{ $this->thresholdStatus['within_threshold'] ? 'Tiến độ lô phiếu' : 'Cảnh báo lệch phiếu (Quá lớn)' }}
-                                            ({{ $this->thresholdStatus['percentage'] }}%)
-                                        </p>
-                                        @if(!$this->thresholdStatus['within_threshold'])
-                                            <p class="mt-1 text-base">{{ $this->thresholdStatus['message'] }}</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
                         </div>
                     </div>
 
@@ -226,7 +207,7 @@
                     @if($currentBallot->entered_count > 0)
                         <div class="pt-4 mt-auto">
                             <button x-data @click="$dispatch('open-modal', 'confirm-finalize')"
-                                    {{ $this->thresholdStatus && !$this->thresholdStatus['within_threshold'] ? 'disabled' : '' }}
+
                                     class="w-full flex justify-center items-center py-6 px-6 rounded-2xl text-3xl font-black text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-500/50 transition-all disabled:bg-slate-300 disabled:text-slate-500 disabled:border-slate-300 disabled:cursor-not-allowed uppercase tracking-wider">
                                 <svg class="w-10 h-10 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Khóa & Nộp Hệ Thống
