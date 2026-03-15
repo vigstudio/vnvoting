@@ -12,7 +12,17 @@ class Vote extends Model
     protected $fillable = [
         'ballot_id',
         'candidate_id',
+        'entry_number',
+        'is_invalid',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'entry_number' => 'integer',
+            'is_invalid' => 'boolean',
+        ];
+    }
 
     /**
      * Quan hệ với ballot

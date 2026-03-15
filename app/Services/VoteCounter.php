@@ -24,7 +24,7 @@ class VoteCounter
         $numbers = [];
         foreach ($parts as $part) {
             // Kiểm tra phải là số không
-            if (!ctype_digit($part)) {
+            if (! ctype_digit($part)) {
                 throw VoteValidationException::invalidFormat($input);
             }
 
@@ -60,7 +60,7 @@ class VoteCounter
             }
         }
 
-        if (!empty($invalidNumbers)) {
+        if (! empty($invalidNumbers)) {
             throw VoteValidationException::invalidCandidates($invalidNumbers);
         }
 
@@ -72,6 +72,7 @@ class VoteCounter
 
     /**
      * Ghi nhận một phiếu bầu vào hệ thống và trả về danh sách ID các Vote đã tạo
+     *
      * @return array<int> Danh sách Vote IDs
      */
     public function recordBallot(string $input, Ballot $ballot): array
@@ -108,12 +109,15 @@ class VoteCounter
         // Ghi votes vào database với transaction
         return DB::transaction(function () use ($ballot, $selectedCandidateIds) {
             $createdVoteIds = [];
+            // entry_number = số thứ tự phiếu trong lô (1-based)
+            $entryNumber = $ballot->entered_count + 1;
 
             foreach ($selectedCandidateIds as $candidateId) {
                 // Tạo vote mới cho mỗi lần nhập
                 $vote = \App\Models\Vote::create([
                     'ballot_id' => $ballot->id,
                     'candidate_id' => $candidateId,
+                    'entry_number' => $entryNumber,
                 ]);
                 $createdVoteIds[] = $vote->id;
             }
@@ -133,7 +137,7 @@ class VoteCounter
         // Kiểm tra threshold
         $status = $this->checkThreshold($ballot);
 
-        if (!$status['within_threshold']) {
+        if (! $status['within_threshold']) {
             throw VoteValidationException::thresholdOutOfRange($status['percentage']);
         }
 

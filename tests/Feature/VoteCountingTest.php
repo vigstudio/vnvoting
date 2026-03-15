@@ -9,6 +9,7 @@ use App\Models\Vote;
 use App\Services\VoteCounter;
 use App\Services\VoteValidationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 
@@ -75,7 +76,7 @@ test('recordBallot records votes correctly', function () {
     ]);
 });
 
-test('recordBallot does not create duplicate votes', function () {
+test('recordBallot creates separate entries with entry_number', function () {
     $election = Election::factory()->create();
     $position = Position::factory()->for($election)->create(['max_votes' => 2]);
 
@@ -94,9 +95,14 @@ test('recordBallot does not create duplicate votes', function () {
 
     expect($ballot->fresh()->entered_count)->toBe(2);
 
+    // Mỗi lần recordBallot tạo votes riêng biệt (unique constraint đã bị xóa)
     expect(Vote::where('ballot_id', $ballot->id)
         ->where('candidate_id', $candidates[0]->id)
-        ->count())->toBe(1);
+        ->count())->toBe(2);
+
+    // Kiểm tra entry_number được set đúng
+    expect(Vote::where('ballot_id', $ballot->id)->where('entry_number', 1)->count())->toBe(2);
+    expect(Vote::where('ballot_id', $ballot->id)->where('entry_number', 2)->count())->toBe(2);
 });
 
 test('recordBallot validates max_votes', function () {
@@ -109,7 +115,10 @@ test('recordBallot validates max_votes', function () {
         ['sort_order' => 2],
     )->create();
 
-    $ballot = Ballot::factory()->for($position)->create();
+    $ballot = Ballot::factory()->for($position)->create([
+        'expected_count' => 50,
+        'entered_count' => 0,
+    ]);
 
     $this->counter->recordBallot('1,2,3', $ballot);
 })->throws(VoteValidationException::class, 'tối đa');

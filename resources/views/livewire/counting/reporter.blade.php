@@ -87,60 +87,246 @@
     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         <div class="px-6 py-5 border-b border-slate-200 bg-slate-50">
             <h2 class="text-2xl font-bold text-slate-900">Chi Tiết Từng Lô Phiếu</h2>
-            <p class="text-slate-500 mt-1">Lịch sử đầy đủ các lô bạn đã kiểm đếm và nộp lên hệ thống.</p>
+            <p class="text-slate-500 mt-1">Lịch sử đầy đủ các lô bạn đã kiểm đếm và nộp lên hệ thống. Bấm vào từng lô để xem và sửa từng phiếu.</p>
         </div>
 
         @if($this->myBallots->count() > 0)
             <div class="divide-y divide-slate-100">
                 @foreach($this->myBallots as $index => $ballot)
-                    <div class="p-6 hover:bg-slate-50/50 transition-colors">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
-                                    <span class="font-bold text-xl">{{ $index + 1 }}</span>
+                    <div wire:key="ballot-{{ $ballot->id }}" class="transition-colors">
+                        {{-- Ballot Header --}}
+                        <div class="p-6 hover:bg-slate-50/50 cursor-pointer" wire:click="viewEntries({{ $ballot->id }})">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+                                        <span class="font-bold text-xl">{{ $index + 1 }}</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg text-slate-900">
+                                            Lô #{{ $index + 1 }} — {{ $ballot->position->title }}
+                                        </h3>
+                                        <p class="text-sm text-slate-500 mt-0.5">
+                                            Hoàn thành: {{ $ballot->counted_at->format('d/m/Y H:i:s') }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="font-bold text-lg text-slate-900">
-                                        Lô #{{ $index + 1 }} — {{ $ballot->position->title }}
-                                    </h3>
-                                    <p class="text-sm text-slate-500 mt-0.5">
-                                        Hoàn thành: {{ $ballot->counted_at->format('d/m/Y H:i:s') }}
-                                    </p>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-semibold rounded-full">
+                                        {{ $ballot->entered_count }}/{{ $ballot->expected_count }} phiếu
+                                    </span>
+                                    @if($ballot->isWithinThreshold())
+                                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-semibold rounded-full">Đạt</span>
+                                    @else
+                                        <span class="px-3 py-1 bg-amber-100 text-amber-700 font-semibold rounded-full">Lệch</span>
+                                    @endif
+
+                                    {{-- View Entries Button --}}
+                                    <button type="button"
+                                            wire:click.stop="viewEntries({{ $ballot->id }})"
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all
+                                                {{ $viewingBallotId === $ballot->id
+                                                    ? 'bg-blue-600 text-white shadow-sm'
+                                                    : 'text-blue-600 hover:bg-blue-50 border border-blue-200 hover:border-blue-300' }}"
+                                            title="Xem lịch sử nhập phiếu">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                                        </svg>
+                                        {{ $viewingBallotId === $ballot->id ? 'Đóng' : 'Xem phiếu' }}
+                                    </button>
+
+                                    <!-- Delete Button -->
+                                    <button type="button"
+                                            x-data
+                                            @click.stop="$dispatch('open-delete-modal', { id: {{ $ballot->id }}, name: 'Lô #{{ $index + 1 }} — {{ addslashes($ballot->position->title) }}' })"
+                                            class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors border border-transparent hover:border-red-200"
+                                            title="Xóa Lô Phiếu này">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-3 text-sm">
-                                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-semibold rounded-full">
-                                    {{ $ballot->entered_count }}/{{ $ballot->expected_count }} phiếu
-                                </span>
-                                @if($ballot->isWithinThreshold())
-                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 font-semibold rounded-full">Đạt</span>
-                                @else
-                                    <span class="px-3 py-1 bg-amber-100 text-amber-700 font-semibold rounded-full">Lệch</span>
-                                @endif
-                                <!-- Delete Button -->
-                                <button type="button"
-                                        x-data
-                                        @click="$dispatch('open-delete-modal', { id: {{ $ballot->id }}, name: 'Lô #{{ $index + 1 }} — {{ addslashes($ballot->position->title) }}' })"
-                                        class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors border border-transparent hover:border-red-200"
-                                        title="Xóa Lô Phiếu này">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </button>
-                            </div>
+
+                            {{-- Vote breakdown for this ballot --}}
+                            @php
+                                $voteGroups = $ballot->votes->where('is_invalid', false)->groupBy('candidate_id');
+                            @endphp
+                            @if($voteGroups->count() > 0)
+                                <div class="ml-16 flex flex-wrap gap-3">
+                                    @foreach($ballot->position->candidates as $candidate)
+                                        @php $count = $voteGroups->get($candidate->id)?->count() ?? 0; @endphp
+                                        <div class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium
+                                            {{ $count > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-50 text-slate-400 border border-slate-100' }}">
+                                            {{ $candidate->name }}: <span class="font-bold ml-1">{{ $count }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
 
-                        {{-- Vote breakdown for this ballot --}}
-                        @php
-                            $voteGroups = $ballot->votes->groupBy('candidate_id');
-                        @endphp
-                        @if($voteGroups->count() > 0)
-                            <div class="ml-16 flex flex-wrap gap-3">
-                                @foreach($ballot->position->candidates as $candidate)
-                                    @php $count = $voteGroups->get($candidate->id)?->count() ?? 0; @endphp
-                                    <div class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium
-                                        {{ $count > 0 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-50 text-slate-400 border border-slate-100' }}">
-                                        {{ $candidate->name }}: <span class="font-bold ml-1">{{ $count }}</span>
+                        {{-- Entry History Panel --}}
+                        @if($viewingBallotId === $ballot->id)
+                            <div class="border-t border-blue-100 bg-gradient-to-b from-blue-50/50 to-white">
+                                <div class="px-6 py-4">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            Lịch Sử Nhập Phiếu — Lô #{{ $index + 1 }}
+                                        </h4>
+                                        <span class="text-sm text-slate-500">
+                                            {{ count($this->ballotEntries) }} phiếu
+                                        </span>
                                     </div>
-                                @endforeach
+
+                                    @if(count($this->ballotEntries) > 0)
+                                        <div class="space-y-2">
+                                            @foreach($this->ballotEntries as $entry)
+                                                <div wire:key="entry-{{ $ballot->id }}-{{ $entry['entry_number'] }}"
+                                                     class="rounded-xl border transition-all
+                                                        {{ $entry['is_invalid']
+                                                            ? 'bg-red-50/50 border-red-200'
+                                                            : 'bg-white border-slate-200 hover:border-blue-200' }}
+                                                        {{ $editingBallotId === $ballot->id && $editingEntryNumber === $entry['entry_number']
+                                                            ? 'ring-2 ring-blue-400 border-blue-400'
+                                                            : '' }}">
+
+                                                    {{-- Entry display mode --}}
+                                                    @if(!($editingBallotId === $ballot->id && $editingEntryNumber === $entry['entry_number']))
+                                                        <div class="flex items-center justify-between px-4 py-3">
+                                                            <div class="flex items-center gap-3">
+                                                                {{-- Entry number badge --}}
+                                                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0
+                                                                    {{ $entry['is_invalid']
+                                                                        ? 'bg-red-100 text-red-600'
+                                                                        : 'bg-blue-100 text-blue-600' }}">
+                                                                    {{ $entry['entry_number'] }}
+                                                                </div>
+
+                                                                {{-- Content --}}
+                                                                @if($entry['is_invalid'])
+                                                                    <div class="flex items-center gap-2">
+                                                                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                                        </svg>
+                                                                        <span class="text-sm font-semibold text-red-600">Phiếu không hợp lệ</span>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="flex flex-wrap gap-1.5">
+                                                                        @foreach($entry['candidates'] as $candidate)
+                                                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">
+                                                                                {{ $candidate['sort_order'] + 1 }}. {{ $candidate['name'] }}
+                                                                            </span>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @endif
+
+                                                                {{-- Time --}}
+                                                                @if($entry['created_at'])
+                                                                    <span class="text-xs text-slate-400 ml-2">{{ $entry['created_at'] }}</span>
+                                                                @endif
+                                                            </div>
+
+                                                            {{-- Edit button --}}
+                                                            <button type="button"
+                                                                    wire:click="startEdit({{ $ballot->id }}, {{ $entry['entry_number'] }})"
+                                                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100 hover:border-amber-300 transition-all"
+                                                                    title="Sửa phiếu này">
+                                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                                </svg>
+                                                                Sửa
+                                                            </button>
+                                                        </div>
+
+                                                    {{-- Entry edit mode --}}
+                                                    @else
+                                                        <div class="px-4 py-4">
+                                                            <div class="flex items-center gap-2 mb-3">
+                                                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 bg-amber-100 text-amber-600">
+                                                                    {{ $entry['entry_number'] }}
+                                                                </div>
+                                                                <span class="text-sm font-bold text-amber-700">Đang chỉnh sửa phiếu #{{ $entry['entry_number'] }}</span>
+                                                            </div>
+
+                                                            {{-- Invalid toggle --}}
+                                                            <div class="mb-3">
+                                                                <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                                                                    <input type="checkbox"
+                                                                           wire:click="toggleEditInvalid"
+                                                                           {{ $editIsInvalid ? 'checked' : '' }}
+                                                                           class="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500">
+                                                                    <span class="text-sm font-medium {{ $editIsInvalid ? 'text-red-600' : 'text-slate-600' }}">
+                                                                        Phiếu không hợp lệ
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+
+                                                            {{-- Candidate selection (disabled if invalid) --}}
+                                                            @if(!$editIsInvalid)
+                                                                <div class="flex flex-wrap gap-2 mb-3">
+                                                                    @foreach($ballot->position->candidates->sortBy('sort_order') as $candidateIdx => $candidate)
+                                                                        @php
+                                                                            $candidateNumber = $candidateIdx + 1;
+                                                                            $isSelected = in_array($candidateNumber, $editSelectedCandidates);
+                                                                        @endphp
+                                                                        <button type="button"
+                                                                                wire:click="toggleEditCandidate({{ $candidateNumber }})"
+                                                                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold border-2 transition-all
+                                                                                    {{ $isSelected
+                                                                                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                                                                                        : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:bg-blue-50' }}">
+                                                                            <span class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold
+                                                                                {{ $isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500' }}">
+                                                                                {{ $candidateNumber }}
+                                                                            </span>
+                                                                            {{ $candidate->name }}
+                                                                        </button>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+
+                                                            {{-- Error message --}}
+                                                            @error('editSelectedCandidates')
+                                                                <div class="mb-2 px-3 py-2 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm font-medium flex items-center gap-2">
+                                                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                                    </svg>
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+
+                                                            {{-- Action buttons --}}
+                                                            <div class="flex items-center gap-2">
+                                                                <button type="button"
+                                                                        wire:click="saveEdit"
+                                                                        wire:loading.attr="disabled"
+                                                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white text-sm font-bold rounded-lg hover:bg-emerald-700 transition-colors shadow-sm disabled:opacity-50">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                                    </svg>
+                                                                    <span wire:loading.remove wire:target="saveEdit">Lưu</span>
+                                                                    <span wire:loading wire:target="saveEdit">Đang lưu...</span>
+                                                                </button>
+                                                                <button type="button"
+                                                                        wire:click="cancelEdit"
+                                                                        class="inline-flex items-center gap-1.5 px-4 py-2 bg-white text-slate-700 text-sm font-bold rounded-lg hover:bg-slate-50 transition-colors border border-slate-300">
+                                                                    Hủy
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <div class="text-center py-8 text-slate-400">
+                                            <svg class="w-10 h-10 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                            <p class="text-sm">Không tìm thấy lịch sử nhập phiếu cho lô này.</p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         @endif
                     </div>

@@ -6,7 +6,7 @@ use App\Models\Ballot;
 use App\Models\Election;
 use App\Services\VoteCounter;
 use App\Services\VoteValidationException;
-use Livewire\Attributes\{Computed, Layout, Title};
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class BallotEntry extends Component
@@ -14,9 +14,13 @@ class BallotEntry extends Component
     public Election $election;
 
     public array $selectedCandidates = [];
+
     public int $expectedCount = 0;
+
     public ?Ballot $currentBallot = null;
+
     public array $recentEntries = [];
+
     public ?int $selectedPositionId = null;
 
     public bool $showResults = false;
@@ -31,7 +35,7 @@ class BallotEntry extends Component
     public function mount(Election $election): void
     {
         $this->election = $election->load('positions.candidates');
-        $this->recentEntries = session('recent_entries_' . $this->election->id, []);
+        $this->recentEntries = session('recent_entries_'.$this->election->id, []);
     }
 
     protected function rules(): array
@@ -46,7 +50,7 @@ class BallotEntry extends Component
     #[Computed]
     public function currentBallotKey(): string
     {
-        return session('current_ballot_' . $this->election->id, '');
+        return session('current_ballot_'.$this->election->id, '');
     }
 
     public function startBallot(): void
@@ -67,16 +71,17 @@ class BallotEntry extends Component
                 ]);
             });
 
-        session(['current_ballot_' . $this->election->id => $this->currentBallot->id]);
+        session(['current_ballot_'.$this->election->id => $this->currentBallot->id]);
         $this->recentEntries = [];
-        session(['recent_entries_' . $this->election->id => $this->recentEntries]);
+        session(['recent_entries_'.$this->election->id => $this->recentEntries]);
         $this->selectedCandidates = [];
     }
 
     public function submitBallot(): void
     {
-        if (!$this->currentBallot) {
+        if (! $this->currentBallot) {
             $this->addError('selectedCandidates', 'Vui lòng bắt đầu kiểm phiếu trước.');
+
             return;
         }
 
@@ -91,14 +96,14 @@ class BallotEntry extends Component
                 'input' => $inputString,
                 'time' => now()->format('H:i:s'),
                 'count' => $this->currentBallot->entered_count, // was already incremented in recordBallot
-                'vote_ids' => $createdVoteIds
+                'vote_ids' => $createdVoteIds,
             ]);
 
             // Limit history to 10
             $this->recentEntries = array_slice($this->recentEntries, 0, 10);
 
             // Save to session
-            session(['recent_entries_' . $this->election->id => $this->recentEntries]);
+            session(['recent_entries_'.$this->election->id => $this->recentEntries]);
 
             $this->selectedCandidates = [];
             $this->dispatch('ballot-recorded');
@@ -109,15 +114,27 @@ class BallotEntry extends Component
 
     public function recordInvalidBallot(): void
     {
-        if (!$this->currentBallot) {
+        if (! $this->currentBallot) {
             return;
         }
 
         // Validate that we haven't exceeded the expected count
         if ($this->currentBallot->entered_count >= $this->currentBallot->expected_count) {
-            $this->addError('selectedCandidates', 'Đã lưu đủ số phiếu (' . $this->currentBallot->expected_count . '). Không thể thêm phiếu mới.');
+            $this->addError('selectedCandidates', 'Đã lưu đủ số phiếu ('.$this->currentBallot->expected_count.'). Không thể thêm phiếu mới.');
+
             return;
         }
+
+        // entry_number trước khi tăng count
+        $entryNumber = $this->currentBallot->entered_count + 1;
+
+        // Tạo vote record đánh dấu phiếu không hợp lệ (để lưu lịch sử)
+        $invalidVote = \App\Models\Vote::create([
+            'ballot_id' => $this->currentBallot->id,
+            'candidate_id' => $this->currentBallot->position->candidates->first()->id,
+            'entry_number' => $entryNumber,
+            'is_invalid' => true,
+        ]);
 
         // Tăng số đếm
         $this->currentBallot->increment('entered_count');
@@ -128,11 +145,11 @@ class BallotEntry extends Component
         array_unshift($this->recentEntries, [
             'count' => $newCount,
             'input' => 'Phiếu không hợp lệ',
-            'vote_ids' => [],
+            'vote_ids' => [$invalidVote->id],
         ]);
 
         // Save to session
-        session(['recent_entries_' . $this->election->id => $this->recentEntries]);
+        session(['recent_entries_'.$this->election->id => $this->recentEntries]);
 
         $this->selectedCandidates = [];
         $this->dispatch('ballot-recorded');
@@ -140,7 +157,7 @@ class BallotEntry extends Component
 
     public function undoEntry(int $index): void
     {
-        if (!isset($this->recentEntries[$index])) {
+        if (! isset($this->recentEntries[$index])) {
             return;
         }
 
@@ -149,7 +166,7 @@ class BallotEntry extends Component
         $voteIds = $entry['vote_ids'] ?? [];
 
         // Polyfill cho các entry cũ (trước khi có tính năng lưu vote_ids)
-        if (!$isInvalidEntry && empty($voteIds) && !empty($entry['input']) && $this->currentBallot) {
+        if (! $isInvalidEntry && empty($voteIds) && ! empty($entry['input']) && $this->currentBallot) {
             $inputCount = count(explode(',', $entry['input']));
             $voteIds = \App\Models\Vote::where('ballot_id', $this->currentBallot->id)
                 ->orderBy('id', 'desc')
@@ -160,7 +177,7 @@ class BallotEntry extends Component
 
         if ($this->currentBallot) {
             // Xóa các vote đã tạo từ database (nếu có)
-            if (!empty($voteIds)) {
+            if (! empty($voteIds)) {
                 \App\Models\Vote::whereIn('id', $voteIds)->delete();
             }
 
@@ -188,17 +205,21 @@ class BallotEntry extends Component
             }
 
             // Lưu session
-            session(['recent_entries_' . $this->election->id => $this->recentEntries]);
+            session(['recent_entries_'.$this->election->id => $this->recentEntries]);
         }
     }
 
     public function toggleCandidate(int $candidateNumber): void
     {
         // Silently ignore if no active ballot or candidate number doesn't exist
-        if (!$this->currentBallot) return;
+        if (! $this->currentBallot) {
+            return;
+        }
 
         $candidateCount = $this->currentBallot->position->candidates->count();
-        if ($candidateNumber < 1 || $candidateNumber > $candidateCount) return;
+        if ($candidateNumber < 1 || $candidateNumber > $candidateCount) {
+            return;
+        }
 
         $index = array_search($candidateNumber, $this->selectedCandidates);
 
@@ -215,27 +236,27 @@ class BallotEntry extends Component
 
     public function finalizeBallot(): void
     {
-        if (!$this->currentBallot || $this->currentBallot->counted_at) {
+        if (! $this->currentBallot || $this->currentBallot->counted_at) {
             return;
         }
 
         try {
             $this->counter->finalizeBallot($this->currentBallot);
-            session()->forget('current_ballot_' . $this->election->id);
-            session()->forget('recent_entries_' . $this->election->id);
+            session()->forget('current_ballot_'.$this->election->id);
+            session()->forget('recent_entries_'.$this->election->id);
             $this->currentBallot = null;
             $this->expectedCount = 0;
             $this->recentEntries = [];
             session()->flash('status', '✅ Đã hoàn thành block phiếu này!');
         } catch (VoteValidationException $e) {
-            session()->flash('error', '⚠️ ' . $e->getMessage());
+            session()->flash('error', '⚠️ '.$e->getMessage());
         }
     }
 
     public function cancelBallot(): void
     {
-        session()->forget('current_ballot_' . $this->election->id);
-        session()->forget('recent_entries_' . $this->election->id);
+        session()->forget('current_ballot_'.$this->election->id);
+        session()->forget('recent_entries_'.$this->election->id);
         $this->currentBallot = null;
         $this->selectedCandidates = [];
         $this->expectedCount = 0;
@@ -244,13 +265,13 @@ class BallotEntry extends Component
 
     public function toggleResults(): void
     {
-        $this->showResults = !$this->showResults;
+        $this->showResults = ! $this->showResults;
     }
 
     #[Computed]
     public function currentResults(): array
     {
-        if (!$this->currentBallot) {
+        if (! $this->currentBallot) {
             return [];
         }
 
@@ -260,7 +281,7 @@ class BallotEntry extends Component
     #[Computed]
     public function thresholdStatus(): array
     {
-        if (!$this->currentBallot) {
+        if (! $this->currentBallot) {
             return [];
         }
 
@@ -269,8 +290,8 @@ class BallotEntry extends Component
 
     public function render()
     {
-        if (!$this->currentBallot && session('current_ballot_' . $this->election->id)) {
-            $this->currentBallot = Ballot::find(session('current_ballot_' . $this->election->id));
+        if (! $this->currentBallot && session('current_ballot_'.$this->election->id)) {
+            $this->currentBallot = Ballot::find(session('current_ballot_'.$this->election->id));
         }
 
         return view('livewire.counting.ballot-entry', [
